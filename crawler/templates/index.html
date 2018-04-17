@@ -20,9 +20,12 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>    
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min.js"></script>    
     <script src="{% static "js/app.js" %}"></script>
-
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900'>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-loading-bar/0.9.0/loading-bar.css"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-loading-bar/0.9.0/loading-bar.js"></script>
+    
 </head>
 
 <!-- apply our angular app to our site -->
@@ -48,8 +51,8 @@
 			    <input class="form-control" type = "text" ng-model="url" placeholder="website url">
 			  </div>
 			  <div class="col-xs-4">
-                <label class='pull-left' for="ex1">Please enter the depth: (default = 1)</label>
-                <input class="form-control" type="number" min="0" id="depth" name="depth" ng-model="depth" placeholder="depth (optional)">
+                <label class='pull-left' for="ex1">Default depth set to 1</label>
+                <input disabled class="form-control" type="number" min="0" id="depth" name="depth" ng-model="depth" placeholder="depth (optional)" ng-value>
               </div>
               </br>
             <input class="btn btn-default" class="form-control" type = "submit" value = "submit">                           		 		  
@@ -61,6 +64,7 @@
     {% verbatim %}
 
     <div ng-repeat = "page_data in response_data">
+            <span>Path (History) >>:</span>
 	        <div ng-repeat = "item in path">
 	          <span ng-click="tocrawl(item,1)" style="text-decoration: underline; color: cornflowerblue;">{{item}}</span>
 	        </div>
@@ -74,7 +78,7 @@
 			  </div>
 				</br>
 			  <div style='width: 50%;'>
-	            <h2 ng-show="page_data.data.length > 0">Other HYPERLINKS</h2>            			
+	            <h2 ng-show="page_data.data.length > 0"> Next seed Links (Click for next depth)</h2>            			
 				<div ng-repeat = "links in page_data.hyperlinks">
 	                <label style="text-decoration: underline; color: cornflowerblue;" ng-click="tocrawl(links,1)" class='pull-left'>{{links}}</label>                       
 	            </div>

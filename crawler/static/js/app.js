@@ -1,4 +1,4 @@
-var routerApp = window.angular.module('routerApp', ['ui.router']);
+var routerApp = window.angular.module('routerApp', ['ui.router', 'angular-loading-bar']);
 
 routerApp.config(function($stateProvider, $urlRouterProvider) {
 
@@ -17,7 +17,7 @@ routerApp.controller('homeController', function($scope, $http, $location) {
         window.console.log("In home controller...");
         $scope.activityModels = [];
         $scope.path = [];
-        
+        $scope.depth = 1; //Default
         $scope.tocrawl = function(url, depth) {
 
             if (url === '' || typeof(url) === 'undefined') {
