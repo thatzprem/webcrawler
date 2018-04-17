@@ -1,0 +1,88 @@
+{% load static from staticfiles %}
+
+<!DOCTYPE html>
+<html>
+<head>  
+    <meta charset="UTF-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="theme-color" content="#00BCD4">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
+    <meta http-equiv="Cache-control" content="no-cache">
+    
+    <!-- TITLE -->
+    <link rel="shortcut icon" href="images/icon.png" />
+    <title>Webcrawler</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.28/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script   src="https://code.jquery.com/jquery-1.12.3.min.js"   integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="   crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>    
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min.js"></script>    
+    <script src="{% static "js/app.js" %}"></script>
+
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900'>
+</head>
+
+<!-- apply our angular app to our site -->
+<body ng-app="routerApp">
+    
+	<!-- NAVIGATION -->
+	<nav class="navbar navbar-inverse" role="navigation" style="margin-bottom: 0px;">
+	    <div class="navbar-header">
+	        <a class="navbar-brand" ui-sref="home">Web Crawler - in Python & Django using AngularJS</a>
+	    </div>
+	</nav>
+	
+	<div class="container" ng-controller="homeController">
+	    <div class="jumbotron text-center">
+	    <p>
+	        Web crawler with <span class="text-danger">depth level</span>
+	        scraping.
+	    </p>
+	    <span ng-bind = "img_url"> </span>		
+		<form ng-submit="tocrawl(url,depth)">
+			  <div class="col-xs-4">
+			    <label class='pull-left' for="ex1">Please enter the website url:</label>
+			    <input class="form-control" type = "text" ng-model="url" placeholder="website url">
+			  </div>
+			  <div class="col-xs-4">
+                <label class='pull-left' for="ex1">Please enter the depth: (default = 1)</label>
+                <input class="form-control" type="number" min="0" id="depth" name="depth" ng-model="depth" placeholder="depth (optional)">
+              </div>
+              </br>
+            <input class="btn btn-default" class="form-control" type = "submit" value = "submit">                           		 		  
+		</form>
+		<br>
+    </div>
+           
+    <br>
+    {% verbatim %}
+
+    <div ng-repeat = "page_data in response_data">
+	        <div ng-repeat = "item in path">
+	          <span ng-click="tocrawl(item,1)" style="text-decoration: underline; color: cornflowerblue;">{{item}}</span>
+	        </div>
+	        </br>
+		<div style='display: flex;'>
+			  <div style='width: 50%;'>
+			    <h2 ng-show="page_data.data.length > 0">IMAGES from seed web page.</h2>        	
+				<div ng-repeat = "links in page_data.data">
+					<img ng-src="{{links}} "  style="  float: left; width: 15%;height:15%; margin-right: 1%; margin-bottom: 0.5em;" />
+				</div>
+			  </div>
+				</br>
+			  <div style='width: 50%;'>
+	            <h2 ng-show="page_data.data.length > 0">Other HYPERLINKS</h2>            			
+				<div ng-repeat = "links in page_data.hyperlinks">
+	                <label style="text-decoration: underline; color: cornflowerblue;" ng-click="tocrawl(links,1)" class='pull-left'>{{links}}</label>                       
+	            </div>
+	          </div>            
+		</div>
+    </div>
+	
+    {% endverbatim %}    	
+
+</body>
+</html>
